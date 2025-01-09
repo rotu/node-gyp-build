@@ -5,7 +5,6 @@ var os = require('os')
 // Workaround to fix webpack's build warnings: 'the request of a dependency is an expression'
 var runtimeRequire = typeof __webpack_require__ === 'function' ? __non_webpack_require__ : require // eslint-disable-line
 
-var vars = (process.config && process.config.variables) || {}
 var prebuildsOnly = !!process.env.PREBUILDS_ONLY
 var abi = process.versions.modules // TODO: support old node where this is undef
 var runtime = isElectron() ? 'electron' : (isNwjs() ? 'node-webkit' : 'node')
@@ -13,7 +12,7 @@ var runtime = isElectron() ? 'electron' : (isNwjs() ? 'node-webkit' : 'node')
 var arch = process.env.npm_config_arch || os.arch()
 var platform = process.env.npm_config_platform || os.platform()
 var libc = process.env.LIBC || (isAlpine(platform) ? 'musl' : 'glibc')
-var armv = process.env.ARM_VERSION || (arch === 'arm64' ? '8' : vars.arm_version) || ''
+var armv = process.env.ARM_VERSION || (arch === 'arm64' && '8') || ''
 var uv = (process.versions.uv || '').split('.')[0]
 
 module.exports = load
